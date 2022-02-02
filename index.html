@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Denoising Diffusion Restoration Models</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link href="fontawesome-5.15.4/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <script type="text/javascript" src="scripts.js"></script>
+</head>
+<body style="font-family: 'Google Sans', sans-serif;" onload="loadImages('imagenet', 'deblur_uni', 'noiseless');loadTableData('noisy_deb');">
+    <div class="container" style="margin-top:40px;">
+        <div class="row">
+            <div class="col" style="text-align:center;">
+                <h1>Denoising Diffusion Restoration Models</h1>
+                <a href="https://www.linkedin.com/in/bahjat-k/">Bahjat Kawar</a><sup>1</sup>, <a href="https://elad.cs.technion.ac.il/">Michael Elad</a><sup>1</sup>, <a href="https://cs.stanford.edu/~ermon/">Stefano Ermon</a><sup>2</sup>, <a href="https://tsong.me">Jiaming Song</a><sup>2</sup><br />
+                <sup>1</sup>Technion, <sup>2</sup>Stanford University<br />
+                <br />
+                <a href="https://arxiv.org/abs/2201.11793" class="btn btn-success"><i class="ai ai-arxiv"></i> ArXiv</a>
+                <a href="https://arxiv.org/pdf/2201.11793" type="button" class="btn btn-danger"><i class="far fa-file-pdf"></i> PDF</a>
+                <a href="https://github.com/bahjat-kawar/ddrm" type="button" class="btn btn-dark"><i class="fab fa-github"></i> Code</a>
+                <!-- <a href="" type="button" class="btn btn-warning btn-colab"><i class="fab fa-google"></i> Colab</a> --><br />
+                <br />
+                DDRM uses pre-trained <a href="https://arxiv.org/abs/2006.11239" class="no-u">DDPMs</a> for solving general linear inverse problems. It does so efficiently and without problem-specific supervised training.<br />
+                <img src="images/figure1.png" class="headline-image"><br /><br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col abstract-col">
+                <h2>Abstract</h2>
+                Many interesting tasks in image restoration can be cast as linear inverse problems.
+                A recent family of approaches for solving these problems uses stochastic algorithms that sample from the posterior distribution of natural images given the measurements.
+                However, efficient solutions often require problem-specific supervised training to model the posterior, whereas unsupervised methods that are not problem-specific typically rely on inefficient iterative methods.
+                This work addresses these issues by introducing Denoising Diffusion Restoration Models (DDRM), an efficient, unsupervised posterior sampling method.
+                Motivated by variational inference, DDRM takes advantage of a pre-trained denoising diffusion generative model for solving any linear inverse problem.
+                We demonstrate DDRM's versatility on several image datasets for super-resolution, deblurring, inpainting, and colorization under various amounts of measurement noise.
+                DDRM outperforms the current leading unsupervised methods on the diverse ImageNet dataset in reconstruction quality, perceptual quality, and runtime, being 5&times; faster than the nearest competitor.
+                DDRM also generalizes well for natural images out of the distribution of the observed ImageNet training set.
+                <br /><br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" style="text-align:center;padding: 0px 170px;">
+                <h2>Demo Images</h2>
+            </div>
+        </div>
+        <div class="row form-group form-inline">
+            <div class="col col-lg-1 col-sm-12 col-picker">
+                <span class="form-control aligner">Show me</span>
+            </div>
+            <div class="col col-lg-2 col-sm-12 col-picker">
+                <select class="form-select" name="dataset" id="dataset" onchange="loadImagesSelected()">
+                    <option value="imagenet">ImageNet</option>
+                    <option value="celeba">face</option>
+                    <option value="bedroom">bedroom</option>
+                    <option value="cat">cat</option>
+                </select>
+            </div>
+            <div class="col col-lg-2 col-sm-12 col-picker">
+                <span class="form-control aligner">images that are</span>
+            </div>
+            <div class="col col-lg-2 col-sm-12 col-picker">
+                <select class="form-select" name="degradation" id="degradation" onchange="loadImagesSelected()">
+                    <option value="deblur_uni">blurred</option>
+                    <option value="sr4">downscaled (4x)</option>
+                    <option value="inp">missing pixels</option>
+                </select>
+            </div>
+            <div class="col col-lg-2 col-sm-12 col-picker">
+                <select class="form-select" name="noise" id="noise" onchange="loadImagesSelected()">
+                    <option value="noiseless">without</option>
+                    <option value="noisy">with</option>
+                </select>
+            </div>
+            <div class="col col-lg-3 col-sm-12 col-picker">
+                <span class="form-control aligner">white Gaussian noise of &sigma;=0.05</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-lg-12" style="text-align:center;"><center>
+                <table class="resp-table">
+                    <tbody>
+                        <tr>
+                            <td class="td-desc">Original</td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                        </tr>
+                        <tr>
+                            <td class="td-desc">Degraded</td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                        </tr>
+                        <tr>
+                            <td class="td-desc">Restored</td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                            <td class="td-image"><img src="images/loading.gif" class="table-image" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </center></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12"><center>
+                All images are restored using a fast 20-step unconditional DDRM<br /><br />
+            </center></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12 two-col">
+                <center><h2>Variational Inference</h2></center>
+                We observe \(\mathbf{y} = \mathbf{Hx} + \mathbf{z}\), where \( \mathbf{x} \) is the original image, \( \mathbf{H} \) is the degradation operator, and \( \mathbf{z} \sim \mathcal{N}(0, \sigma_{\mathbf{y}}^2 \mathbf{I}) \) is additive white Gaussian noise with known variance. In order to restore the original image, we define
+                DDRM as a Markov chain \( \mathbf{x}_T \to \mathbf{x}_{T-1} \to \ldots \to \mathbf{x}_{1} \to \mathbf{x}_{0} \) conditioned on \( \mathbf{y} \). \( \mathbf{x}_T \) will be approximated by a known distribution, and the diffusion process of the Markov chain will lead to \( \mathbf{x}_0 \), our final output for the estimated restored image. We define this Markov chain in the spectral space of the degradation operator \( \mathbf{H} \), using elements from its singular value decomposition (SVD).
+We then construct an evidence lower bound (ELBO) on the maximum likelihood objective for DDRM. We show its relation to the objective detailed in <a href="https://arxiv.org/abs/2006.11239" class="no-u">DDPM</a>, therefore motivating using their pre-trained models in DDRM.
+            </div>
+            <div class="col-lg-6 col-sm-12 two-col">
+                <center><h2>Quantitative Results</h2></center>
+                We evaluate DDRM on 1,000 images from the <a href="https://ieeexplore.ieee.org/document/5206848" class="no-u">ImageNet</a> dataset (256 &times; 256), and measure the average PSNR and <a href="https://arxiv.org/abs/1801.01401" class="no-u">KID</a> (\(\times10^3\)).
+We compare DDRM (with 20 steps) with other unsupervised methods that work in reasonable time and can operate on ImageNet.
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col" width="49%"><select class="form-select" name="problem" id="problem" onchange="loadTableDataSelected()">
+                    <option value="noisy_deb">Deblurring (noisy)</option>
+                    <option value="noisy_sr">4&times; super-res (noisy)</option>
+                    <option value="noiseless_deb">Deblurring (noiseless)</option>
+                    <option value="noiseless_sr">4&times; super-res (noiseless)</option>
+                </select></th>
+      <th scope="col" width="17%">PSNR &uparrow;</th>
+      <th scope="col" width="17%">KID &downarrow;</th>
+      <th scope="col" width="17%">NFEs &downarrow;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td scope="row"><a href="https://arxiv.org/abs/2003.13659" class="no-u">DGP</a></td>
+      <td class="quant-td">22.70</td>
+      <td class="quant-td">27.60</td>
+      <td class="quant-td">1500</td>
+    </tr>
+    <tr>
+      <td scope="row"><a href="https://arxiv.org/abs/1611.02862" class="no-u">RED</a></td>
+      <td class="quant-td">26.16</td>
+      <td class="quant-td">21.21</td>
+      <td class="quant-td">500</td>
+    </tr>
+    <tr>
+      <td scope="row"><a href="https://arxiv.org/abs/2105.14951" class="no-u">SNIPS</a></td>
+      <td class="quant-td">34.32</td>
+      <td class="quant-td"><b>0.49</b></td>
+      <td class="quant-td">1000</td>
+    </tr>
+    <tr>
+      <th scope="row">DDRM</th>
+      <td class="quant-td"><b>35.64</b></td>
+      <td class="quant-td">7.14</td>
+      <td class="quant-td"><b>20</b></td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <center><h2>BibTeX</h2></center>
+                <pre><code>@article{kawar2022denoising,
+      title={Denoising Diffusion Restoration Models}, 
+      author={Bahjat Kawar and Michael Elad and Stefano Ermon and Jiaming Song},
+      year={2022},
+      journal={arXiv preprint arXiv:2201.11793},
+}</code></pre>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

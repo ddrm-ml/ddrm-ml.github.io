@@ -1,0 +1,88 @@
+.table-image {
+    width:100px;
+    height:100px;
+}
+.resp-table {
+    width:610px;
+}
+.col-picker, .col-picker * {
+    text-align:center;
+}
+.headline-image {
+    width:100%;
+}
+.abstract-col {
+    text-align:center;
+    padding: 0px 50px;
+}
+.two-col {
+    text-align:left;
+}
+@media screen and (min-width:992px) {
+    .table-image {
+        width:120px;
+        height:120px;
+    }
+    .resp-table {
+        width:800px;
+    }
+    .col-picker, .col-picker * {
+        text-align:inherit;
+    }
+    .headline-image {
+        width:800px;
+    }
+    .abstract-col {
+        padding: 0px 170px;
+    }
+    .two-col {
+        padding: 0px 30px;
+    }
+}
+.td-image {
+    text-align:center;
+}
+.td-desc {
+    writing-mode:vertical-rl;
+    transform:scale(-1);
+    text-align:center;
+}
+.aligner {
+    width:100%;
+    border:1px solid white;
+    background:none;
+    margin:0px;
+    padding: 0px;
+    padding-top:.375rem;
+}
+.btn-colab {
+    color:white;
+    background:#f9ab00;
+    border-color:#f9ab00;
+}
+.btn-colab:active {
+    color:white;
+    background:#e8710a;
+}
+.btn-colab:hover {
+    color:white;
+    background:#e09000;
+    border-color:#e09000;
+}
+.btn-dark:hover {
+    color:white;
+    background:#000000;
+    border-color:#000000;
+}
+.no-u {
+    text-decoration: none;
+}
+pre {
+    background-color:#eee;
+    border: 1px solid #999;
+    border-radius: 5px;
+    padding: 10px;
+}
+.table {
+    text-align:center;
+}
