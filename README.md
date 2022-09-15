@@ -5,8 +5,7 @@ The paper is available [on arXiv](https://arxiv.org/abs/2201.11793), and the cod
 
 If you find DDRM useful for your work please cite:
 ```
-@inproceedings{
-    kawar2022denoising,
+@inproceedings{kawar2022denoising,
     title={Denoising Diffusion Restoration Models},
     author={Bahjat Kawar and Michael Elad and Stefano Ermon and Jiaming Song},
     booktitle={Advances in Neural Information Processing Systems},
